@@ -6,18 +6,35 @@ media_folder: "uploads"
 public_folder: "/uploads"
 
 collections:
+  # 1. THE PRODUCT DATABASE
   - name: "data"
     label: "Data"
     files:
       - name: "products"
         label: "Shoe Inventory"
-        file: "products.json"      # <--- The Master File
+        file: "products.json"
         fields:
           - name: "shoes"
             label: "Shoes List"
-            widget: "list"         # <--- Allows adding multiple shoes
+            widget: "list"
             fields:
               - {label: "Shoe Name", name: "title", widget: "string"}
               - {label: "Price (PKR)", name: "price", widget: "number", value_type: "int"}
+              - {label: "Category", name: "category", widget: "select", options: ["Sport", "Sneaker", "Casual", "Formal", "Boot", "Premium"]}
               - {label: "Photo", name: "image", widget: "image"}
-              - {label: "Description", name: "body", widget: "text"}
+              - {label: "Description", name: "body", widget: "text", required: false}
+
+  # 2. THE STORE SETTINGS (New!)
+  - name: "settings"
+    label: "Store Settings"
+    files:
+      - name: "general"
+        label: "Contact & Info"
+        file: "settings.json"
+        fields:
+          - {label: "Store Name", name: "store_name", widget: "string", default: "Static Kicks"}
+          - {label: "WhatsApp Number (Format: 92300...)", name: "whatsapp_number", widget: "string"}
+          - {label: "Display Phone Number", name: "display_phone", widget: "string", default: "0300-1234567"}
+          - {label: "Store Address", name: "address", widget: "text"}
+          - {label: "Instagram Link", name: "instagram", widget: "string", required: false}
+          - {label: "Facebook Link", name: "facebook", widget: "string", required: false}

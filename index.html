@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Static Kicks | Pakistan</title>
+    <title>Static Kicks | Loading...</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <style>
         /* --- VARIABLES --- */
         :root {
             --primary: #121212;
-            --accent: #25D366;
+            --accent: #25D366; /* WhatsApp Green */
             --bg: #FAFAFA;
             --card-bg: #FFFFFF;
             --text-gray: #757575;
@@ -25,6 +28,7 @@
             font-family: 'Poppins', sans-serif;
             padding-top: 70px; 
             -webkit-tap-highlight-color: transparent;
+            display: flex; flex-direction: column; min-height: 100vh;
         }
 
         /* --- HEADER --- */
@@ -50,11 +54,11 @@
         }
         .cart-badge.bump { transform: scale(1.5); }
 
-        /* --- HERO SECTION (NEW IMAGE) --- */
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
             height: 60vh; min-height: 400px;
-            /* Updated High-Quality Background */
+            /* Premium Streetwear Background */
             background: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             display: flex; align-items: center; justify-content: center;
             text-align: center; margin-bottom: 2rem;
@@ -72,8 +76,9 @@
         .cta-btn {
             background: white; color: black; padding: 1rem 2.5rem;
             border-radius: 30px; font-weight: 700; text-decoration: none;
-            text-transform: uppercase; font-size: 0.9rem;
+            text-transform: uppercase; font-size: 0.9rem; transition: transform 0.2s;
         }
+        .cta-btn:hover { transform: scale(1.05); }
 
         /* --- FILTERS --- */
         .filter-bar {
@@ -91,7 +96,7 @@
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* --- GRID --- */
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; flex: 1; }
         .product-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem; padding-bottom: 4rem;
@@ -131,6 +136,17 @@
         .add-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
         .add-btn:active { transform: scale(0.9); }
 
+        /* --- FOOTER (DYNAMIC) --- */
+        footer {
+            background: var(--primary); color: white; padding: 3rem 5%;
+            text-align: center; margin-top: auto;
+        }
+        .footer-logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem; }
+        .footer-links { margin-bottom: 2rem; font-size: 0.9rem; }
+        .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; transition: color 0.2s; }
+        .footer-links a:hover { color: white; }
+        .copyright { font-size: 0.8rem; opacity: 0.5; }
+
         /* --- ANIMATIONS --- */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .card { animation: fadeIn 0.5s ease forwards; opacity: 0; }
@@ -152,13 +168,12 @@
             .card-title { font-size: 0.9rem; }
         }
     </style>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
     <header>
         <div class="logo">STATIC<span>KICKS.</span></div>
-        <div class="cart-icon" onclick="alert('Cart Page coming soon! For now, click the card to buy directly.')">
+        <div class="cart-icon" onclick="alert('Proceed to checkout by clicking any item.')">
             🛒 <span class="cart-badge" id="cart-count">0</span>
         </div>
     </header>
@@ -182,30 +197,79 @@
 
     <div class="container" id="shop">
         <div class="product-grid" id="product-list">
-            <p style="text-align: center; grid-column: 1/-1;">Loading...</p>
+            <p style="text-align: center; grid-column: 1/-1;">Loading Collection...</p>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-logo" id="ft-name">STATIC KICKS.</div>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <p id="ft-address" style="margin-bottom:0.5rem; color:#aaa; font-size:0.9rem;">Loading Address...</p>
+            <p id="ft-phone" style="font-weight:bold; color:white;">...</p>
+        </div>
+
+        <div class="footer-links">
+            <a id="ft-insta" href="#" target="_blank">Instagram</a> • 
+            <a id="ft-fb" href="#" target="_blank">Facebook</a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 <span id="ft-copyright-name">Static Kicks</span> Pakistan.<br>
+            Designed for Speed.
+        </div>
+    </footer>
 
     <div id="toast">Added to Cart!</div>
 
     <script>
-        // --- DATA BACKUP ---
+        // --- BACKUP DATA (For local testing if files fail to load) ---
         const localBackup = [
             { "title": "Nike Air Zoom Pegasus", "price": 14500, "category": "Sport", "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" },
             { "title": "Adidas Ultraboost", "price": 18200, "category": "Sport", "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80" },
             { "title": "Jordan 1 Retro", "price": 9500, "category": "Sneaker", "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80" },
-            { "title": "Puma RS-X3", "price": 8500, "category": "Sneaker", "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" },
-            { "title": "Vans Old Skool", "price": 6500, "category": "Casual", "image": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&q=80" },
-            { "title": "Timberland Boot", "price": 12000, "category": "Boot", "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=600&q=80" },
-            { "title": "Converse Chuck 70", "price": 5500, "category": "Casual", "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&q=80" },
-            { "title": "Chelsea Formal", "price": 6200, "category": "Formal", "image": "https://images.unsplash.com/photo-1621021889816-724d45d90987?w=600&q=80" },
-            { "title": "Oxford Leather", "price": 8900, "category": "Formal", "image": "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=600&q=80" }
+            { "title": "Chelsea Formal", "price": 6200, "category": "Formal", "image": "https://images.unsplash.com/photo-1621021889816-724d45d90987?w=600&q=80" }
         ];
 
-        let allProducts = []; // Store fetched products globally
+        // Global State
+        let allProducts = [];
+        let globalSettings = {};
         let cartCount = 0;
 
-        // 1. Load Products
+        // 1. INITIALIZE APP
+        async function initApp() {
+            await loadSettings(); 
+            await loadProducts(); 
+        }
+
+        // 2. LOAD SETTINGS (From settings.json)
+        async function loadSettings() {
+            try {
+                const response = await fetch('settings.json');
+                if (!response.ok) throw new Error("No settings file");
+                globalSettings = await response.json();
+                
+                // Update DOM
+                if(globalSettings.store_name) {
+                    document.title = globalSettings.store_name + " | Pakistan";
+                    document.getElementById('ft-name').innerText = globalSettings.store_name;
+                    document.getElementById('ft-copyright-name').innerText = globalSettings.store_name;
+                }
+                if(globalSettings.address) document.getElementById('ft-address').innerText = globalSettings.address;
+                if(globalSettings.display_phone) document.getElementById('ft-phone').innerText = "📞 " + globalSettings.display_phone;
+                
+                if(globalSettings.instagram) document.getElementById('ft-insta').href = globalSettings.instagram;
+                else document.getElementById('ft-insta').style.display = 'none';
+
+                if(globalSettings.facebook) document.getElementById('ft-fb').href = globalSettings.facebook;
+                else document.getElementById('ft-fb').style.display = 'none';
+
+            } catch (error) {
+                console.warn("Could not load settings.json (Using Defaults)");
+            }
+        }
+
+        // 3. LOAD PRODUCTS (From products.json)
         async function loadProducts() {
             try {
                 const response = await fetch('products.json');
@@ -219,13 +283,13 @@
             renderCards(allProducts);
         }
 
-        // 2. Render Cards (accepts a filtered list)
+        // 4. RENDER CARDS
         function renderCards(shoesArray) {
             const productList = document.getElementById('product-list');
             productList.innerHTML = ''; 
 
             if(shoesArray.length === 0) {
-                productList.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found in this category.</p>';
+                productList.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found.</p>';
                 return;
             }
 
@@ -238,6 +302,7 @@
                             <img src="${shoe.image}" class="card-img" alt="${shoe.title}" loading="lazy">
                         </div>
                         <div class="card-details">
+                            <div style="font-size:0.8rem; color:#888; text-transform:uppercase;">${shoe.category || 'Sneaker'}</div>
                             <h3 class="card-title">${shoe.title}</h3>
                             <div class="card-footer">
                                 <div class="card-price">PKR ${shoe.price.toLocaleString()}</div>
@@ -250,17 +315,14 @@
             });
         }
 
-        // 3. Filter Logic
+        // 5. FILTER LOGIC
         function filterProducts(category, element) {
-            // UI Update
             document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
 
-            // Logic Update
             if (category === 'All') {
                 renderCards(allProducts);
             } else {
-                // Filter items that match the category (case insensitive)
                 const filtered = allProducts.filter(shoe => 
                     shoe.category && shoe.category.toLowerCase() === category.toLowerCase()
                 );
@@ -268,43 +330,44 @@
             }
         }
 
-        // 4. Add to Cart Logic
+        // 6. ADD TO CART ANIMATION
         function addToCart(event) {
-            event.stopPropagation(); // Stop bubbling to card click
+            event.stopPropagation(); // Don't trigger card click
             
             cartCount++;
             const badge = document.getElementById('cart-count');
             badge.innerText = cartCount;
             
-            // Visual "Bump" animation
+            // Bump Animation
             badge.classList.remove('bump');
-            void badge.offsetWidth; // Trigger reflow
+            void badge.offsetWidth; 
             badge.classList.add('bump');
-
-            // Show Toast
+            
+            // Toast Notification
             const toast = document.getElementById("toast");
             toast.className = "show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // 5. Direct Checkout Logic
+        // 7. CHECKOUT REDIRECT
         function goToCheckout(productName, price) {
             const url = `checkout.html?product=${encodeURIComponent(productName)}&price=${price}`;
             window.location.href = url;
         }
 
-        window.onload = loadProducts;
+        // 8. NETLIFY IDENTITY LOGIC (For Admin Login)
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
+
+        // Start App
+        window.onload = initApp;
     </script>
-    <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
 </body>
 </html>
