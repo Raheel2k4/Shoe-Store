@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "data"
+    label: "Data"
+    files:
+      - name: "products"
+        label: "Shoe Inventory"
+        file: "products.json"      # <--- The Master File
+        fields:
+          - name: "shoes"
+            label: "Shoes List"
+            widget: "list"         # <--- Allows adding multiple shoes
+            fields:
+              - {label: "Shoe Name", name: "title", widget: "string"}
+              - {label: "Price (PKR)", name: "price", widget: "number", value_type: "int"}
+              - {label: "Photo", name: "image", widget: "image"}
+              - {label: "Description", name: "body", widget: "text"}
