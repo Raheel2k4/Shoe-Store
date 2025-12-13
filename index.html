@@ -18,6 +18,7 @@
             --card-bg: #FFFFFF;
             --text-gray: #757575;
             --shadow-hover: 0 12px 24px rgba(0,0,0,0.1);
+            --radius-pill: 50px; /* NEW: For oval shapes */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,42 +48,74 @@
 
         /* --- HERO SECTION --- */
         .hero {
-            position: relative; height: 50vh; min-height: 350px;
+            position: relative; height: 50vh; min-height: 400px;
             background: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             display: flex; align-items: center; justify-content: center;
             text-align: center; margin-bottom: 0;
         }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3)); }
         .hero-content { position: relative; z-index: 1; color: white; padding: 1rem; }
-        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem; }
-        
-        /* --- SEARCH & FILTER PANEL --- */
+        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        /* --- SEARCH & FILTER PANEL (REDESIGNED) --- */
         .filter-container {
-            max-width: 1200px; margin: -30px auto 2rem; padding: 0 5%; position: relative; z-index: 10;
+            max-width: 700px; /* Narrower for better look */
+            margin: -35px auto 2rem; /* Pulls it up slightly, but not too much */
+            padding: 0 1rem; 
+            position: relative; 
+            z-index: 10;
         }
+        
         .search-bar {
-            background: white; padding: 1rem; border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; gap: 1rem; align-items: center;
+            background: white; 
+            padding: 0.5rem; /* Slim padding */
+            border-radius: var(--radius-pill); /* OVAL SHAPE */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12); /* Soft, modern shadow */
+            display: flex; 
+            gap: 0.5rem; 
+            align-items: center;
+            border: 1px solid rgba(0,0,0,0.03);
         }
+        
         .search-input {
-            flex: 1; padding: 12px; border: 1px solid #eee; border-radius: 8px; font-size: 1rem; outline: none;
+            flex: 1; 
+            padding: 12px 20px; 
+            border: none; /* No border inside */
+            background: transparent;
+            font-size: 1rem; 
+            outline: none;
+            border-radius: var(--radius-pill);
+            color: #333;
         }
+        
         .filter-toggle {
-            padding: 12px 20px; background: #111; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+            padding: 12px 28px; 
+            background: #111; 
+            color: white; 
+            border: none; 
+            border-radius: var(--radius-pill); /* OVAL BUTTON */
+            cursor: pointer; 
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s;
+            font-size: 0.9rem;
+            display: flex; align-items: center; gap: 5px;
         }
+        .filter-toggle:hover { transform: scale(1.05); background: #333; }
         
         /* Hidden Filter Panel */
         #filter-panel {
-            display: none; background: #fff; padding: 1.5rem; margin-top: 10px; border-radius: 12px; border: 1px solid #eee;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: none; background: #fff; padding: 1.5rem; margin-top: 15px; border-radius: 20px; border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
         .filter-group { margin-bottom: 1.5rem; }
         .filter-label { font-weight: 700; margin-bottom: 0.8rem; display: block; font-size: 0.9rem; }
+        
         .price-inputs { display: flex; gap: 10px; align-items: center; }
-        .price-inputs input { width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        .price-inputs input { width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
         
         .cat-btn {
-            padding: 6px 15px; border: 1px solid #ddd; background: white; border-radius: 20px; 
+            padding: 8px 18px; border: 1px solid #eee; background: #f9f9f9; border-radius: 20px; 
             cursor: pointer; margin-right: 8px; margin-bottom: 8px; font-size: 0.9rem; transition: all 0.2s;
         }
         .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
@@ -97,16 +130,19 @@
         /* --- CARD --- */
         .card {
             background: var(--card-bg); border-radius: 12px; transition: transform 0.3s ease; cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid transparent; position: relative;
         }
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
         .card-img-wrapper {
             height: 260px; width: 100%; background: #f4f4f4; border-radius: 12px; overflow: hidden; position: relative;
         }
-        .card-img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .card:hover .card-img { transform: scale(1.05); }
+
         .badge {
             position: absolute; top: 10px; left: 10px; background: white; color: black; 
-            padding: 4px 10px; font-size: 0.7rem; font-weight: 700; border-radius: 4px; text-transform: uppercase;
+            padding: 5px 12px; font-size: 0.7rem; font-weight: 700; border-radius: 20px; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .card-details { padding: 1rem 0.5rem; }
         .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -120,7 +156,11 @@
         @media (max-width: 600px) {
             .product-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
             .card-img-wrapper { height: 180px; }
-            .filter-container { margin-top: 0; padding-top: 1rem; }
+            /* Mobile Search Bar Tweaks */
+            .filter-container { margin-top: -25px; padding: 0 1rem; }
+            .search-bar { flex-direction: row; padding: 0.3rem; }
+            .filter-toggle { padding: 10px 15px; } 
+            .filter-toggle span { display: none; } /* Hide text on small screens, keep icon if added */
         }
     </style>
 </head>
@@ -134,13 +174,14 @@
     <div class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Find Your Fit</h1>
+            <h1>Walk With Power</h1>
+            <p>Premium Footwear. Exclusive Drops.</p>
         </div>
     </div>
 
     <div class="filter-container">
         <div class="search-bar">
-            <input type="text" id="search-input" class="search-input" placeholder="Search shoes (e.g. Nike, Casual)...">
+            <input type="text" id="search-input" class="search-input" placeholder="Search shoes (e.g. Nike)...">
             <button class="filter-toggle" onclick="toggleFilterPanel()">Filters ▾</button>
         </div>
 
@@ -160,7 +201,7 @@
                 </div>
             </div>
             
-            <button onclick="applyFilters()" style="width:100%; padding:10px; background:var(--accent); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Apply Filters</button>
+            <button onclick="applyFilters()" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:30px; font-weight:600; cursor:pointer;">Apply Filters</button>
         </div>
     </div>
 
@@ -185,7 +226,7 @@
     <script>
         let allProducts = [];
         let globalSettings = {};
-        let activeCategory = 'Men'; // Default logic
+        let activeCategory = 'Men'; 
 
         async function initApp() {
             await loadSettings();
@@ -215,7 +256,7 @@
                 allProducts = data.shoes;
                 
                 generateCategories();
-                applyFilters(); // Apply initial filter
+                applyFilters(); 
             } catch (e) {
                 document.getElementById('product-list').innerHTML = '<p style="text-align:center; width:100%;">Failed to load products.</p>';
             }
@@ -223,19 +264,17 @@
 
         // 3. GENERATE CATEGORIES
         function generateCategories() {
-            // Get unique categories + Default 'Men'
             const cats = ['Men', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
-            const uniqueCats = [...new Set(cats)]; // Remove duplicates
+            const uniqueCats = [...new Set(cats)]; 
             
             const container = document.getElementById('category-container');
-            container.innerHTML = `<button class="cat-btn" onclick="setCategory('All', this)">All</button>`; // Add 'All' option
+            container.innerHTML = `<button class="cat-btn" onclick="setCategory('All', this)">All</button>`; 
 
             uniqueCats.forEach(cat => {
                 const isActive = cat === 'Men' ? 'active' : '';
                 container.innerHTML += `<button class="cat-btn ${isActive}" onclick="setCategory('${cat}', this)">${cat}</button>`;
             });
             
-            // Set default active logic
             activeCategory = 'Men';
         }
 
@@ -261,8 +300,6 @@
                 const matchSearch = p.title.toLowerCase().includes(term);
                 const matchPrice = p.price >= min && p.price <= max;
                 
-                // If Category is 'All', show everything. Else, match category. 
-                // Fallback: If product has NO category, show it in 'Men' or 'All'
                 const pCat = p.category || 'Men';
                 const matchCat = activeCategory === 'All' ? true : pCat === activeCategory;
 
@@ -270,6 +307,9 @@
             });
 
             renderCards(filtered);
+            
+            // If panel is open on mobile, maybe close it? (Optional preference)
+            // document.getElementById('filter-panel').style.display = 'none';
         }
 
         // Listen for Search Enter Key
@@ -286,7 +326,6 @@
             }
 
             list.forEach((shoe, i) => {
-                // Use the FIRST image if gallery exists
                 const img = shoe.gallery ? shoe.gallery[0].image : shoe.image;
                 
                 grid.innerHTML += `
