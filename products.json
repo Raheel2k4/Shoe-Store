@@ -30,14 +30,6 @@
       ],
       "rating": 5,
       "category": "Men"
-    },
-    {
-      "category": "Men",
-      "rating": 5,
-      "title": "Formal Wear",
-      "price": 1500,
-      "image": "uploads/images.jpeg",
-      "description": "ABCD"
     }
   ]
 }
