@@ -24,7 +24,7 @@
             font-family: 'Poppins', sans-serif; padding-top: 80px; 
         }
 
-        /* --- HEADER & SEARCH (Matched with Index) --- */
+        /* --- HEADER & SEARCH --- */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: 70px;
             background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px);
@@ -43,7 +43,6 @@
         }
         .header-search input:focus { background: #fff; border-color: #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* Dropdown Styles */
         .search-results {
             position: absolute; top: 110%; left: 0; width: 100%;
             background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -98,6 +97,27 @@
         .details h1 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
         .price { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin-bottom: 1.5rem; }
         
+        /* --- NEW SIZE STYLES --- */
+        .size-section { margin-bottom: 20px; }
+        .size-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; display: block; }
+        .size-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .size-box {
+            min-width: 45px; height: 45px; padding: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+            background: #fff;
+        }
+        .size-box:hover { border-color: var(--primary); background: #f9f9f9; }
+        .size-box.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
         /* ACTION BUTTONS */
         .action-buttons { display: flex; gap: 15px; margin-top: 2rem; }
         .add-cart-btn {
@@ -182,8 +202,12 @@
         <div class="details">
             <h1 id="p-title">Loading...</h1>
             <div class="price" id="p-price">...</div>
-            <div id="p-desc" style="line-height: 1.6; color: #555;"></div>
+            <div id="p-desc" style="line-height: 1.6; color: #555; margin-bottom: 20px;"></div>
 
+            <div id="size-container" class="size-section" style="display:none;">
+                <span class="size-header">Select Size</span>
+                <div id="size-list" class="size-grid"></div>
+            </div>
             <div class="action-buttons">
                 <button class="add-cart-btn" onclick="addToCart()">Add to Cart</button>
                 <button class="buy-btn" onclick="buyNow()">Buy Now</button>
@@ -227,7 +251,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const productTitle = urlParams.get('title');
         let productData = null;
-        let allProducts = []; // For search dropdown
+        let allProducts = []; 
+        let selectedSize = null; // Track selected size
 
         // --- CART LOGIC ---
         function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
@@ -243,6 +268,7 @@
                     <img src="${item.img}" alt="img">
                     <div style="flex:1;">
                         <div style="font-size:0.9rem; font-weight:600;">${item.title}</div>
+                        <div style="font-size:0.8rem; color:#666;">Size: ${item.size}</div>
                         <div style="font-size:0.8rem; color:green;">PKR ${item.price}</div>
                     </div>
                     <span onclick="removeFromCart(${index})" style="color:red; cursor:pointer;">×</span>
@@ -253,22 +279,39 @@
         function removeFromCart(index) { const cart = getCart(); cart.splice(index, 1); saveCart(cart); }
         function toggleCart() { document.getElementById('side-cart').classList.toggle('open'); document.getElementById('overlay').classList.toggle('active'); }
 
+        // Size Selection Helper
+        function selectSize(element, size) {
+            document.querySelectorAll('.size-box').forEach(box => box.classList.remove('active'));
+            element.classList.add('active');
+            selectedSize = size;
+        }
+
         function addToCart() {
             if(!productData) return;
+
+            // Validate Size
+            if(productData.sizes && productData.sizes.length > 0 && !selectedSize) {
+                alert("Please select a size first.");
+                return;
+            }
+
             const cart = getCart();
             cart.push({
                 title: productData.title,
                 price: productData.price,
+                size: selectedSize || 'One Size', // Store selected size
                 img: productData.gallery ? productData.gallery[0].image : productData.image
             });
             saveCart(cart);
-            toggleCart(); // Open cart to show success
+            toggleCart(); 
         }
 
         function buyNow() {
             if(!productData) return;
-            // For Buy Now, we can add to cart and go to checkout, or just go to checkout with params.
-            // Let's add to cart first for consistency, then redirect.
+            if(productData.sizes && productData.sizes.length > 0 && !selectedSize) {
+                alert("Please select a size first.");
+                return;
+            }
             addToCart();
             window.location.href = 'checkout.html';
         }
@@ -279,7 +322,7 @@
                 updateCartUI();
                 const res = await fetch('products.json');
                 const data = await res.json();
-                allProducts = data.shoes; // Load for search
+                allProducts = data.shoes; 
                 
                 productData = data.shoes.find(p => p.title === productTitle);
 
@@ -289,12 +332,26 @@
                 document.getElementById('p-price').innerText = `PKR ${productData.price.toLocaleString()}`;
                 document.getElementById('p-desc').innerText = productData.description || "No description available.";
                 
+                // RENDER SIZES
+                const sizeContainer = document.getElementById('size-container');
+                const sizeList = document.getElementById('size-list');
+                
+                if(productData.sizes && productData.sizes.length > 0) {
+                    sizeContainer.style.display = 'block';
+                    sizeList.innerHTML = productData.sizes.map(size => 
+                        `<div class="size-box" onclick="selectSize(this, '${size}')">${size}</div>`
+                    ).join('');
+                } else {
+                    sizeContainer.style.display = 'none';
+                }
+
                 const mainImg = document.getElementById('main-img');
                 const gallery = productData.gallery || [{image: productData.image}];
                 
                 mainImg.src = gallery[0].image;
 
                 const thumbRow = document.getElementById('thumb-row');
+                thumbRow.innerHTML = '';
                 gallery.forEach((item, index) => {
                     const thumb = document.createElement('img');
                     thumb.src = item.image;

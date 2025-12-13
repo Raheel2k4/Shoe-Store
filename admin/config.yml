@@ -2,7 +2,7 @@ backend:
   name: git-gateway
   branch: main # Change to 'master' if your repo uses master
 
-# UPDATED PATHS: "uploads" folder is at the root, not inside frontend
+# UPDATED PATHS: "uploads" folder is at the root
 media_folder: "uploads" 
 public_folder: "uploads"
 
@@ -17,7 +17,6 @@ collections:
     files:
       - name: "products"
         label: "Edit Products"
-        # UPDATED PATH: removed 'frontend/'
         file: "products.json" 
         description: "Manage your shoe inventory here."
         fields:
@@ -28,6 +27,13 @@ collections:
             fields:
               - { label: "Product Title", name: "title", widget: "string" }
               - { label: "Price (PKR)", name: "price", widget: "number" }
+              # --- ADDED SIZES FIELD ---
+              - name: "sizes"
+                label: "Available Sizes"
+                widget: "list"
+                default: ["40", "41", "42", "43", "44"]
+                hint: "Add available sizes for this shoe."
+              # -------------------------
               - { label: "Category", name: "category", widget: "select", options: ["Men", "Women", "Unisex", "Sale"], default: "Men" }
               - { label: "Rating (0-5)", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1, default: 0, hint: "Higher rated items appear first on home page." }
               - { label: "Main Image", name: "image", widget: "image" }
@@ -44,7 +50,6 @@ collections:
   # ---------------------------------------------------
   - name: "orders"
     label: "Orders"
-    # UPDATED PATH: removed 'frontend/'
     folder: "orders" 
     create: true
     slug: "order-{{slug}}"
@@ -74,6 +79,7 @@ collections:
         widget: "list"
         fields:
           - { label: "Shoe Name", name: "item_name", widget: "string" }
+          - { label: "Size", name: "item_size", widget: "string" } 
           - { label: "Price", name: "item_price", widget: "number" }
 
   # ---------------------------------------------------
@@ -84,7 +90,6 @@ collections:
     files:
       - name: "general"
         label: "Site Settings"
-        # UPDATED PATH: removed 'frontend/'
         file: "settings.json"
         fields:
           - { label: "Store Name", name: "store_name", widget: "string" }
