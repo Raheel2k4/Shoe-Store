@@ -2,173 +2,324 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Product Details | Static Kicks</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <style>
-        /* [Copy basic CSS variables from index.html here] */
-        body { font-family: 'Poppins', sans-serif; padding: 0; margin: 0; background: #f8f9fa; padding-bottom: 80px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; min-height: 100vh; }
+        :root {
+            --primary: #121212;
+            --accent: #25D366; 
+            --bg: #FAFAFA;
+            --gray: #f4f4f4;
+            --border: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg); color: var(--primary); 
+            font-family: 'Poppins', sans-serif; padding-top: 80px; 
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; cursor: pointer; }
+
+        /* --- PRODUCT LAYOUT --- */
+        .product-container {
+            max-width: 1200px; margin: 0 auto; padding: 2rem 5%;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            align-items: start;
+        }
+
+        /* IMAGE GALLERY */
+        .gallery { display: flex; flex-direction: column; gap: 10px; }
+        .main-img { 
+            width: 100%; height: 500px; object-fit: cover; border-radius: 12px; 
+            background: var(--gray); cursor: zoom-in;
+        }
+        .thumb-row { display: flex; gap: 10px; overflow-x: auto; }
+        .thumb { 
+            width: 80px; height: 80px; border-radius: 8px; cursor: pointer; 
+            object-fit: cover; opacity: 0.6; transition: 0.2s; border: 2px solid transparent;
+        }
+        .thumb.active { opacity: 1; border-color: var(--primary); }
+
+        /* DETAILS SIDE */
+        .details h1 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+        .price { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin-bottom: 1.5rem; }
         
-        /* IMAGE SLIDER */
-        .gallery-container { position: relative; height: 350px; background: #eee; }
-        .gallery-scroll {
-            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; 
-            height: 100%; scrollbar-width: none;
+        .buy-btn {
+            display: block; width: 100%; padding: 18px; 
+            background: var(--primary); color: white; text-align: center;
+            border: none; border-radius: 8px; font-weight: 600; font-size: 1.1rem;
+            cursor: pointer; margin-top: 2rem; transition: transform 0.2s;
         }
-        .gallery-img { 
-            flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; scroll-snap-align: center; 
-        }
-        .arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); color: white; border: none;
-            padding: 10px 15px; cursor: pointer; font-size: 1.5rem;
-        }
-        .arrow-left { left: 10px; } .arrow-right { right: 10px; }
+        .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
-        /* INFO */
-        .info { padding: 1.5rem; }
-        .title { font-size: 1.8rem; font-weight: 700; }
-        .price { font-size: 1.5rem; color: #555; margin-bottom: 1rem; }
-        .desc { color: #666; line-height: 1.6; margin-bottom: 1.5rem; }
+        /* --- TABS (Reviews & Questions) --- */
+        .tab-container {
+            margin-top: 4rem; grid-column: 1 / -1; 
+            border-top: 1px solid var(--border); padding-top: 2rem;
+        }
+        .tab-header { display: flex; gap: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--gray); }
+        .tab-btn {
+            padding-bottom: 10px; cursor: pointer; font-weight: 600; color: #888;
+            border-bottom: 2px solid transparent; margin-bottom: -2px; transition: 0.3s;
+        }
+        .tab-btn.active { color: var(--primary); border-color: var(--primary); }
 
-        /* CONTROLS */
-        .controls { margin-bottom: 1.5rem; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
-        select, input { padding: 10px; border: 1px solid #ddd; border-radius: 8px; width: 100%; margin-bottom: 1rem; }
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
+
+        /* --- REVIEW SECTION --- */
+        .verification-box {
+            background: #fff; border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;
+        }
+        .review-list { margin-top: 1rem; }
+        .review-item { 
+            background: white; padding: 1rem; border-radius: 8px; margin-bottom: 10px; 
+            border: 1px solid #eee; 
+        }
+        .stars { color: #FFD700; margin-bottom: 5px; }
+
+        /* --- QUESTION SECTION (Redesigned) --- */
+        .question-box {
+            background: white; padding: 1.5rem; border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee;
+        }
+        .q-input-group { position: relative; margin-bottom: 1rem; }
         
-        /* REVIEWS & QUESTIONS */
-        .section-header { background: #eee; padding: 10px 1.5rem; font-weight: bold; margin-top: 2rem; }
-        .review-item { border-bottom: 1px solid #eee; padding: 1rem; }
-        .stars { color: gold; }
+        .q-input {
+            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
+            font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s;
+            background: #f9f9f9;
+        }
+        .q-input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+        
+        .ask-btn {
+            background: var(--primary); color: white; border: none; padding: 12px 25px;
+            border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
 
-        /* FIXED BOTTOM BAR */
-        .bottom-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
-            padding: 15px; border-top: 1px solid #ddd; display: flex; gap: 10px;
+        .qa-list { margin-top: 2rem; }
+        .qa-item { margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+        .qa-q { font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+        .qa-badge { background: #eee; padding: 2px 8px; font-size: 0.7rem; border-radius: 4px; color: #555; }
+        .qa-a { color: #555; margin-left: 20px; font-size: 0.95rem; margin-top: 5px; border-left: 2px solid var(--accent); padding-left: 10px; }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .product-container { grid-template-columns: 1fr; gap: 2rem; }
+            .main-img { height: 350px; }
+            .buy-btn { position: fixed; bottom: 0; left: 0; margin: 0; border-radius: 0; z-index: 100; }
+            .tab-container { padding-bottom: 80px; } /* Space for fixed button */
         }
-        .btn-buy {
-            flex: 1; background: #111; color: white; border: none; padding: 12px;
-            border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="gallery-container">
-        <button class="arrow arrow-left" onclick="scrollGallery(-1)">&#10094;</button>
-        <div class="gallery-scroll" id="img-container">
+    <header>
+        <div class="logo" onclick="window.location.href='index.html'">STATIC<span>KICKS.</span></div>
+    </header>
+
+    <div class="product-container">
+        <div class="gallery">
+            <img id="main-img" class="main-img" src="" alt="Shoe Image">
+            <div class="thumb-row" id="thumb-row"></div>
+        </div>
+
+        <div class="details">
+            <h1 id="p-title">Loading...</h1>
+            <div class="price" id="p-price">...</div>
+            <div id="p-desc" style="line-height: 1.6; color: #555;"></div>
+
+            <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-header">
+                <div class="tab-btn active" onclick="switchTab('reviews', this)">Reviews</div>
+                <div class="tab-btn" onclick="switchTab('questions', this)">Q&A</div>
             </div>
-        <button class="arrow arrow-right" onclick="scrollGallery(1)">&#10095;</button>
+
+            <div id="reviews" class="tab-content active">
+                <div class="verification-box">
+                    <h4 style="margin-bottom:10px;">Have you bought this item?</h4>
+                    <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Enter your Order ID to write a verified review.</p>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="order-id-input" placeholder="e.g. SK-1024" style="padding:10px; border:1px solid #ddd; border-radius:4px; flex:1;">
+                        <button onclick="verifyOrder()" style="padding:10px 20px; background:#333; color:white; border:none; border-radius:4px; cursor:pointer;">Verify</button>
+                    </div>
+                    
+                    <div id="review-form" style="display:none; margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
+                        <textarea id="review-text" placeholder="Write your review here..." style="width:100%; padding:10px; border:1px solid #ddd; margin-bottom:10px; border-radius:4px;"></textarea>
+                        <button onclick="submitReview()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Submit Review</button>
+                    </div>
+                </div>
+
+                <div class="review-list" id="review-list">
+                    </div>
+            </div>
+
+            <div id="questions" class="tab-content">
+                <div class="question-box">
+                    <h3 style="margin-bottom:1rem;">Ask a Question</h3>
+                    <div class="q-input-group">
+                        <input type="text" id="q-name" class="q-input" placeholder="Your Name" style="margin-bottom:10px;">
+                        <textarea id="q-text" class="q-input" placeholder="Type your question here..." rows="3"></textarea>
+                    </div>
+                    <button class="ask-btn" onclick="submitQuestion()">Post Question</button>
+                </div>
+
+                <div class="qa-list" id="qa-list">
+                    </div>
+            </div>
+        </div>
     </div>
 
-    <div class="info">
-        <h1 class="title" id="p-title">Loading...</h1>
-        <div class="price" id="p-price">...</div>
-        
-        <div class="controls">
-            <div style="display:flex; gap:10px;">
-                <div style="flex:1;">
-                    <label>Size</label>
-                    <select id="p-size"><option>Select</option></select>
-                </div>
-                <div style="flex:1;">
-                    <label>Color</label>
-                    <select id="p-color"><option>Select</option></select>
-                </div>
-            </div>
-            
-            <label>Quantity</label>
-            <input type="number" id="p-qty" value="1" min="1" max="5">
-        </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productTitle = urlParams.get('title');
+        let productData = null;
 
-        <div class="desc" id="p-desc"></div>
-        
-        <h3 style="border-bottom:2px solid #eee; padding-bottom:5px;">Reviews</h3>
-        <div id="reviews-list">
-            <p style="color:#777; font-style:italic;">No reviews yet.</p>
-        </div>
+        // --- INIT ---
+        async function loadProduct() {
+            try {
+                const res = await fetch('products.json');
+                const data = await res.json();
+                productData = data.shoes.find(p => p.title === productTitle);
 
-        <div style="margin-top:2rem; background:#f9f9f9; padding:1rem; border-radius:8px;">
-            <h4>Ask a Question / Leave Review</h4>
-            <form name="interactions" method="POST" data-netlify="true">
-                <input type="hidden" name="product_name" id="form-p-name">
-                <input type="text" name="user_name" placeholder="Your Name" required>
-                <textarea name="message" placeholder="Your Question or Review..." rows="3" required></textarea>
-                <button type="submit" style="background:#333; color:white; border:none; padding:8px 15px; margin-top:5px;">Submit</button>
-            </form>
-            <small style="color:#666; display:block; margin-top:5px;">* Admin will receive this via notification.</small>
-        </div>
-    </div>
-</div>
+                if(!productData) { document.body.innerHTML = "<h1>Product not found</h1>"; return; }
 
-<div class="bottom-bar">
-    <button class="btn-buy" onclick="buyNow()">Buy Now - COD</button>
-</div>
+                // Fill Data
+                document.getElementById('p-title').innerText = productData.title;
+                document.getElementById('p-price').innerText = `PKR ${productData.price.toLocaleString()}`;
+                document.getElementById('p-desc').innerText = productData.description || "No description available.";
+                
+                // Images
+                const mainImg = document.getElementById('main-img');
+                const gallery = productData.gallery || [{image: productData.image}];
+                
+                mainImg.src = gallery[0].image;
 
-<script>
-    async function init() {
-        const params = new URLSearchParams(window.location.search);
-        const title = params.get('title');
+                const thumbRow = document.getElementById('thumb-row');
+                gallery.forEach((item, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = item.image;
+                    thumb.className = index === 0 ? 'thumb active' : 'thumb';
+                    thumb.onclick = () => {
+                        mainImg.src = item.image;
+                        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                    }
+                    thumbRow.appendChild(thumb);
+                });
 
-        // Fetch Data
-        const res = await fetch('products.json');
-        const data = await res.json();
-        const product = data.shoes.find(p => p.title === title);
+                // Load Mock Content
+                loadReviews();
+                loadQuestions();
 
-        if(!product) return document.body.innerHTML = "<h1>Product Not Found</h1>";
-
-        // Fill Data
-        document.getElementById('p-title').innerText = product.title;
-        document.getElementById('p-price').innerText = "PKR " + product.price;
-        document.getElementById('p-desc').innerText = product.body;
-        document.getElementById('form-p-name').value = product.title;
-
-        // Fill Images
-        const imgCont = document.getElementById('img-container');
-        // Handle if product has gallery OR just single image
-        const images = product.gallery ? product.gallery.map(g => g.image) : [product.image];
-        
-        imgCont.innerHTML = images.map(img => `<img src="${img}" class="gallery-img">`).join('');
-
-        // Fill Options
-        const sizeSel = document.getElementById('p-size');
-        if(product.sizes) sizeSel.innerHTML = product.sizes.map(s => `<option>${s}</option>`).join('');
-        
-        const colorSel = document.getElementById('p-color');
-        if(product.colors) colorSel.innerHTML = product.colors.map(c => `<option>${c}</option>`).join('');
-
-        // Fill Reviews
-        if(product.reviews && product.reviews.length > 0) {
-            document.getElementById('reviews-list').innerHTML = product.reviews.map(r => `
-                <div class="review-item">
-                    <strong>${r.user}</strong> <span class="stars">${'★'.repeat(r.rating)}</span><br>
-                    ${r.comment}
-                </div>
-            `).join('');
+            } catch(e) { console.error(e); }
         }
-    }
 
-    function scrollGallery(dir) {
-        const container = document.getElementById('img-container');
-        const width = container.offsetWidth;
-        container.scrollBy({ left: dir * width, behavior: 'smooth' });
-    }
+        // --- TAB LOGIC ---
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
 
-    function buyNow() {
-        const title = document.getElementById('p-title').innerText;
-        const priceStr = document.getElementById('p-price').innerText.replace('PKR ', '');
-        const size = document.getElementById('p-size').value;
-        const color = document.getElementById('p-color').value;
-        const qty = document.getElementById('p-qty').value;
+        // --- BUY NOW ---
+        function buyNow() {
+            const msg = `Hi, I want to buy: ${productTitle} - PKR ${productData.price}`;
+            window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
+        }
 
-        // Pass everything to Checkout via URL
-        const url = `checkout.html?product=${encodeURIComponent(title)}&price=${priceStr}&size=${size}&color=${color}&qty=${qty}`;
-        window.location.href = url;
-    }
+        // --- REVIEW LOGIC (VERIFICATION) ---
+        function verifyOrder() {
+            const input = document.getElementById('order-id-input').value;
+            // Simple mock logic: Accept any ID longer than 3 chars
+            if(input.length > 3) {
+                alert("Order Verified! You can now write a review.");
+                document.getElementById('review-form').style.display = 'block';
+                document.getElementById('order-id-input').disabled = true;
+            } else {
+                alert("Invalid Order ID. Please check your confirmation email.");
+            }
+        }
 
-    init();
-</script>
+        function submitReview() {
+            const text = document.getElementById('review-text').value;
+            if(!text) return;
+            
+            const container = document.getElementById('review-list');
+            const newReview = document.createElement('div');
+            newReview.className = 'review-item';
+            newReview.innerHTML = `
+                <div class="stars">★★★★★</div>
+                <p><strong>Verified Buyer:</strong> ${text}</p>
+            `;
+            container.prepend(newReview); // Add to top
+            document.getElementById('review-text').value = '';
+            alert("Review submitted!");
+        }
+
+        function loadReviews() {
+            // Mock Existing Reviews
+            const list = document.getElementById('review-list');
+            // Check if product has 'reviews' in JSON (optional implementation)
+            // For now, static mock:
+            list.innerHTML = `
+                <div class="review-item">
+                    <div class="stars">★★★★☆</div>
+                    <p><strong>Ali K.:</strong> Great quality, arrived in 2 days.</p>
+                </div>
+            `;
+        }
+
+        // --- QUESTION LOGIC ---
+        function submitQuestion() {
+            const name = document.getElementById('q-name').value || "Guest";
+            const text = document.getElementById('q-text').value;
+            
+            if(!text) { alert("Please type a question"); return; }
+
+            const list = document.getElementById('qa-list');
+            const item = document.createElement('div');
+            item.className = 'qa-item';
+            item.innerHTML = `
+                <div class="qa-q"><span class="qa-badge">Q</span> ${text} <span style="font-size:0.8rem; color:#999; font-weight:400;">- ${name}</span></div>
+                <div class="qa-a">Waiting for answer...</div>
+            `;
+            list.prepend(item);
+            
+            document.getElementById('q-text').value = '';
+            alert("Question posted!");
+        }
+
+        function loadQuestions() {
+            // Mock Q&A
+            const list = document.getElementById('qa-list');
+            list.innerHTML = `
+                <div class="qa-item">
+                    <div class="qa-q"><span class="qa-badge">Q</span> Is this original?</div>
+                    <div class="qa-a">Yes, 100% original with box.</div>
+                </div>
+            `;
+        }
+
+        window.onload = loadProduct;
+    </script>
 </body>
 </html>
