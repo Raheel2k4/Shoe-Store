@@ -1,54 +1,57 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: main # Change to 'master' if your repo uses master
 
-media_folder: "uploads"
-public_folder: "/uploads"
+media_folder: "frontend/images/uploads"
+public_folder: "images/uploads"
 
 collections:
-  # 1. GLOBAL SETTINGS
-  - name: "settings"
-    label: "Store Settings"
-    files:
-      - name: "general"
-        label: "General Settings"
-        file: "settings.json"
-        fields:
-          - {label: "Store Name", name: "store_name", widget: "string"}
-          - {label: "Online Payment Number (Jazz/Easy)", name: "payment_number", widget: "string", hint: "This appears on checkout"}
-          - {label: "WhatsApp Number", name: "whatsapp_number", widget: "string"}
-          - {label: "Store Address", name: "address", widget: "text"}
-
-  # 2. SHOE INVENTORY
-  - name: "data"
-    label: "Data"
+  # ---------------------------------------------------
+  # 1. PRODUCT INVENTORY (Edits frontend/products.json)
+  # ---------------------------------------------------
+  - name: "inventory"
+    label: "Inventory"
+    editor:
+      preview: false
     files:
       - name: "products"
-        label: "Shoe Inventory"
-        file: "products.json"
+        label: "Edit Products"
+        file: "frontend/products.json"
+        description: "Add or remove shoes from here. 'Rating' controls the sorting order."
         fields:
           - name: "shoes"
-            label: "Shoes List"
+            label: "Product List"
             widget: "list"
+            summary: "{{fields.title}} - {{fields.price}}"
             fields:
-              - {label: "Shoe Name", name: "title", widget: "string"}
-              - {label: "Price (PKR)", name: "price", widget: "number", value_type: "int"}
-              - {label: "Category", name: "category", widget: "select", options: ["Men", "Women", "Children", "Unisex"]}
-              - {label: "Description", name: "body", widget: "markdown"}
-              - {label: "Available Sizes", name: "sizes", widget: "select", multiple: true, options: ["38", "39", "40", "41", "42", "43", "44", "45"]}
-              - {label: "Available Colors", name: "colors", widget: "list", field: {label: "Color Name", widget: "string"}}
-              # MULTIPLE IMAGES
-              - label: "Product Images"
-                name: "gallery"
-                widget: "list"
-                fields:
-                  - {label: "Image", name: "image", widget: "image"}
-              # REVIEWS (Admin adds them manually after receiving email)
-              - label: "Customer Reviews"
-                name: "reviews"
+              - { label: "Product Title", name: "title", widget: "string" }
+              - { label: "Price (PKR)", name: "price", widget: "number" }
+              - { label: "Category", name: "category", widget: "select", options: ["Men", "Women", "Unisex", "Sale"], default: "Men" }
+              # The Rating field you asked for (Controls sorting order)
+              - { label: "Rating (0-5)", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1, default: 0, hint: "Higher rated items appear first on the home page." }
+              - { label: "Main Image", name: "image", widget: "image" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              
+              # Optional Gallery (For product detail page)
+              - name: "gallery"
+                label: "Extra Images"
                 widget: "list"
                 required: false
                 fields:
-                  - {label: "Customer Name", name: "user", widget: "string"}
-                  - {label: "Rating (1-5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5}
-                  - {label: "Comment", name: "comment", widget: "text"}
+                  - { label: "Image", name: "image", widget: "image" }
+
+  # ---------------------------------------------------
+  # 2. GLOBAL SETTINGS (Edits frontend/settings.json)
+  # ---------------------------------------------------
+  - name: "settings"
+    label: "Settings"
+    files:
+      - name: "general"
+        label: "Site Settings"
+        file: "frontend/settings.json"
+        fields:
+          - { label: "Store Name", name: "store_name", widget: "string" }
+          - { label: "Display Address", name: "address", widget: "string" }
+          - { label: "Phone Number", name: "display_phone", widget: "string" }
+          - { label: "Instagram Link", name: "instagram", widget: "string", required: false }
+          - { label: "Facebook Link", name: "facebook", widget: "string", required: false }
