@@ -1,6 +1,7 @@
 {
   "shoes": [
     {
+<<<<<<< HEAD
       "title": "Nike Air Pegasus",
       "price": 14500,
       "category": "Men",
@@ -14,6 +15,13 @@
       "reviews": [
         {"user": "Ahmed", "rating": 5, "comment": "Best shoes I ever bought!"}
       ]
+=======
+      "image": "/uploads/images.jpeg",
+      "title": "Formal Wear",
+      "price": 1500,
+      "body": "Formal Wear Men Shoes",
+      "category": "Sport"
+>>>>>>> 293a0ae62ba97e8b93e61c3d2f73ea501662fa8b
     }
   ]
 }
