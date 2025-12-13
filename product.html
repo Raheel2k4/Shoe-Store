@@ -15,22 +15,56 @@
             --bg: #FAFAFA;
             --gray: #f4f4f4;
             --border: #e0e0e0;
+            --text-gray: #757575;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Fix Horizontal Scroll */
+        html, body { overflow-x: hidden; width: 100%; }
+
         body { 
             background-color: var(--bg); color: var(--primary); 
             font-family: 'Poppins', sans-serif; padding-top: 80px; 
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (MATCHING HOME) --- */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: 70px;
             background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+            gap: 15px;
         }
-        .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; cursor: pointer; }
+        
+        .logo { 
+            font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; 
+            cursor: pointer; white-space: nowrap;
+        }
+        .logo span { color: var(--text-gray); font-weight: 400; }
+
+        .header-search {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .header-search input {
+            width: 100%; padding: 8px 15px; background: #f1f1f1;
+            border: 1px solid transparent; border-radius: 50px;
+            font-family: 'Poppins', sans-serif; font-size: 0.9rem; outline: none;
+            transition: all 0.2s;
+        }
+        .header-search input:focus { background: #fff; border-color: #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+        .header-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+        
+        .cart-icon { position: relative; font-size: 1.3rem; cursor: pointer; }
+        .cart-badge {
+            position: absolute; top: -5px; right: -8px; background: var(--primary); color: white;
+            font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
 
         /* --- PRODUCT LAYOUT --- */
         .product-container {
@@ -64,7 +98,7 @@
         }
         .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
-        /* --- TABS (Reviews & Questions) --- */
+        /* --- TABS --- */
         .tab-container {
             margin-top: 4rem; grid-column: 1 / -1; 
             border-top: 1px solid var(--border); padding-top: 2rem;
@@ -79,28 +113,27 @@
         .tab-content { display: none; animation: fadeIn 0.4s; }
         .tab-content.active { display: block; }
 
-        /* --- REVIEW SECTION --- */
+        /* --- REVIEW --- */
         .verification-box {
             background: #fff; border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;
         }
-        .review-list { margin-top: 1rem; }
         .review-item { 
             background: white; padding: 1rem; border-radius: 8px; margin-bottom: 10px; 
             border: 1px solid #eee; 
         }
         .stars { color: #FFD700; margin-bottom: 5px; }
 
-        /* --- QUESTION SECTION (Redesigned) --- */
+        /* --- QUESTION (Modern Style) --- */
         .question-box {
             background: white; padding: 1.5rem; border-radius: 12px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee;
         }
-        .q-input-group { position: relative; margin-bottom: 1rem; }
+        .q-input-group { margin-bottom: 1rem; }
         
         .q-input {
             width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
             font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s;
-            background: #f9f9f9;
+            background: #f9f9f9; display: block; margin-bottom: 10px;
         }
         .q-input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
         
@@ -117,10 +150,15 @@
 
         /* MOBILE */
         @media (max-width: 768px) {
+            header { padding: 0 15px; }
+            .logo { font-size: 1.1rem; }
+            .header-search { max-width: 140px; }
+            .header-search input { padding: 6px 10px; font-size: 0.8rem; }
+            
             .product-container { grid-template-columns: 1fr; gap: 2rem; }
             .main-img { height: 350px; }
             .buy-btn { position: fixed; bottom: 0; left: 0; margin: 0; border-radius: 0; z-index: 100; }
-            .tab-container { padding-bottom: 80px; } /* Space for fixed button */
+            .tab-container { padding-bottom: 80px; } 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -129,6 +167,14 @@
 
     <header>
         <div class="logo" onclick="window.location.href='index.html'">STATIC<span>KICKS.</span></div>
+        
+        <div class="header-search">
+            <input type="text" id="search-input" placeholder="Search shoes..." autocomplete="off">
+        </div>
+
+        <div class="header-right">
+            <div class="cart-icon">🛒 <span class="cart-badge" id="cart-count">0</span></div>
+        </div>
     </header>
 
     <div class="product-container">
@@ -166,22 +212,20 @@
                     </div>
                 </div>
 
-                <div class="review-list" id="review-list">
-                    </div>
+                <div class="review-list" id="review-list"></div>
             </div>
 
             <div id="questions" class="tab-content">
                 <div class="question-box">
                     <h3 style="margin-bottom:1rem;">Ask a Question</h3>
                     <div class="q-input-group">
-                        <input type="text" id="q-name" class="q-input" placeholder="Your Name" style="margin-bottom:10px;">
+                        <input type="text" id="q-name" class="q-input" placeholder="Your Name">
                         <textarea id="q-text" class="q-input" placeholder="Type your question here..." rows="3"></textarea>
                     </div>
                     <button class="ask-btn" onclick="submitQuestion()">Post Question</button>
                 </div>
 
-                <div class="qa-list" id="qa-list">
-                    </div>
+                <div class="qa-list" id="qa-list"></div>
             </div>
         </div>
     </div>
@@ -191,6 +235,14 @@
         const productTitle = urlParams.get('title');
         let productData = null;
 
+        // --- HEADER SEARCH LOGIC ---
+        // Since we are on a sub-page, searching should send us back to home with the query
+        document.getElementById('search-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                window.location.href = `index.html?search=${encodeURIComponent(this.value)}`;
+            }
+        });
+
         // --- INIT ---
         async function loadProduct() {
             try {
@@ -198,14 +250,12 @@
                 const data = await res.json();
                 productData = data.shoes.find(p => p.title === productTitle);
 
-                if(!productData) { document.body.innerHTML = "<h1>Product not found</h1>"; return; }
+                if(!productData) { document.body.innerHTML = "<h1 style='padding:50px; text-align:center'>Product not found</h1>"; return; }
 
-                // Fill Data
                 document.getElementById('p-title').innerText = productData.title;
                 document.getElementById('p-price').innerText = `PKR ${productData.price.toLocaleString()}`;
                 document.getElementById('p-desc').innerText = productData.description || "No description available.";
                 
-                // Images
                 const mainImg = document.getElementById('main-img');
                 const gallery = productData.gallery || [{image: productData.image}];
                 
@@ -224,77 +274,59 @@
                     thumbRow.appendChild(thumb);
                 });
 
-                // Load Mock Content
                 loadReviews();
                 loadQuestions();
 
             } catch(e) { console.error(e); }
         }
 
-        // --- TAB LOGIC ---
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
         }
 
-        // --- BUY NOW ---
         function buyNow() {
             const msg = `Hi, I want to buy: ${productTitle} - PKR ${productData.price}`;
             window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // --- REVIEW LOGIC (VERIFICATION) ---
+        // --- REVIEWS ---
         function verifyOrder() {
             const input = document.getElementById('order-id-input').value;
-            // Simple mock logic: Accept any ID longer than 3 chars
             if(input.length > 3) {
                 alert("Order Verified! You can now write a review.");
                 document.getElementById('review-form').style.display = 'block';
                 document.getElementById('order-id-input').disabled = true;
             } else {
-                alert("Invalid Order ID. Please check your confirmation email.");
+                alert("Invalid Order ID.");
             }
         }
 
         function submitReview() {
             const text = document.getElementById('review-text').value;
             if(!text) return;
-            
             const container = document.getElementById('review-list');
             const newReview = document.createElement('div');
             newReview.className = 'review-item';
-            newReview.innerHTML = `
-                <div class="stars">★★★★★</div>
-                <p><strong>Verified Buyer:</strong> ${text}</p>
-            `;
-            container.prepend(newReview); // Add to top
+            newReview.innerHTML = `<div class="stars">★★★★★</div><p><strong>Verified Buyer:</strong> ${text}</p>`;
+            container.prepend(newReview);
             document.getElementById('review-text').value = '';
             alert("Review submitted!");
         }
 
         function loadReviews() {
-            // Mock Existing Reviews
-            const list = document.getElementById('review-list');
-            // Check if product has 'reviews' in JSON (optional implementation)
-            // For now, static mock:
-            list.innerHTML = `
-                <div class="review-item">
-                    <div class="stars">★★★★☆</div>
-                    <p><strong>Ali K.:</strong> Great quality, arrived in 2 days.</p>
-                </div>
+            document.getElementById('review-list').innerHTML = `
+                <div class="review-item"><div class="stars">★★★★☆</div><p><strong>Ali K.:</strong> Great quality, arrived in 2 days.</p></div>
             `;
         }
 
-        // --- QUESTION LOGIC ---
+        // --- QUESTIONS ---
         function submitQuestion() {
             const name = document.getElementById('q-name').value || "Guest";
             const text = document.getElementById('q-text').value;
-            
             if(!text) { alert("Please type a question"); return; }
-
             const list = document.getElementById('qa-list');
             const item = document.createElement('div');
             item.className = 'qa-item';
@@ -303,19 +335,13 @@
                 <div class="qa-a">Waiting for answer...</div>
             `;
             list.prepend(item);
-            
             document.getElementById('q-text').value = '';
             alert("Question posted!");
         }
 
         function loadQuestions() {
-            // Mock Q&A
-            const list = document.getElementById('qa-list');
-            list.innerHTML = `
-                <div class="qa-item">
-                    <div class="qa-q"><span class="qa-badge">Q</span> Is this original?</div>
-                    <div class="qa-a">Yes, 100% original with box.</div>
-                </div>
+            document.getElementById('qa-list').innerHTML = `
+                <div class="qa-item"><div class="qa-q"><span class="qa-badge">Q</span> Is this original?</div><div class="qa-a">Yes, 100% original with box.</div></div>
             `;
         }
 
