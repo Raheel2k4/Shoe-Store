@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* [Copy basic CSS variables from index.html here] */
+        body { font-family: 'Poppins', sans-serif; padding: 0; margin: 0; background: #f8f9fa; padding-bottom: 80px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; min-height: 100vh; }
+        
+        /* IMAGE SLIDER */
+        .gallery-container { position: relative; height: 350px; background: #eee; }
+        .gallery-scroll {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; 
+            height: 100%; scrollbar-width: none;
+        }
+        .gallery-img { 
+            flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; scroll-snap-align: center; 
+        }
+        .arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5); color: white; border: none;
+            padding: 10px 15px; cursor: pointer; font-size: 1.5rem;
+        }
+        .arrow-left { left: 10px; } .arrow-right { right: 10px; }
+
+        /* INFO */
+        .info { padding: 1.5rem; }
+        .title { font-size: 1.8rem; font-weight: 700; }
+        .price { font-size: 1.5rem; color: #555; margin-bottom: 1rem; }
+        .desc { color: #666; line-height: 1.6; margin-bottom: 1.5rem; }
+
+        /* CONTROLS */
+        .controls { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        select, input { padding: 10px; border: 1px solid #ddd; border-radius: 8px; width: 100%; margin-bottom: 1rem; }
+        
+        /* REVIEWS & QUESTIONS */
+        .section-header { background: #eee; padding: 10px 1.5rem; font-weight: bold; margin-top: 2rem; }
+        .review-item { border-bottom: 1px solid #eee; padding: 1rem; }
+        .stars { color: gold; }
+
+        /* FIXED BOTTOM BAR */
+        .bottom-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+            padding: 15px; border-top: 1px solid #ddd; display: flex; gap: 10px;
+        }
+        .btn-buy {
+            flex: 1; background: #111; color: white; border: none; padding: 12px;
+            border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="gallery-container">
+        <button class="arrow arrow-left" onclick="scrollGallery(-1)">&#10094;</button>
+        <div class="gallery-scroll" id="img-container">
+            </div>
+        <button class="arrow arrow-right" onclick="scrollGallery(1)">&#10095;</button>
+    </div>
+
+    <div class="info">
+        <h1 class="title" id="p-title">Loading...</h1>
+        <div class="price" id="p-price">...</div>
+        
+        <div class="controls">
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label>Size</label>
+                    <select id="p-size"><option>Select</option></select>
+                </div>
+                <div style="flex:1;">
+                    <label>Color</label>
+                    <select id="p-color"><option>Select</option></select>
+                </div>
+            </div>
+            
+            <label>Quantity</label>
+            <input type="number" id="p-qty" value="1" min="1" max="5">
+        </div>
+
+        <div class="desc" id="p-desc"></div>
+        
+        <h3 style="border-bottom:2px solid #eee; padding-bottom:5px;">Reviews</h3>
+        <div id="reviews-list">
+            <p style="color:#777; font-style:italic;">No reviews yet.</p>
+        </div>
+
+        <div style="margin-top:2rem; background:#f9f9f9; padding:1rem; border-radius:8px;">
+            <h4>Ask a Question / Leave Review</h4>
+            <form name="interactions" method="POST" data-netlify="true">
+                <input type="hidden" name="product_name" id="form-p-name">
+                <input type="text" name="user_name" placeholder="Your Name" required>
+                <textarea name="message" placeholder="Your Question or Review..." rows="3" required></textarea>
+                <button type="submit" style="background:#333; color:white; border:none; padding:8px 15px; margin-top:5px;">Submit</button>
+            </form>
+            <small style="color:#666; display:block; margin-top:5px;">* Admin will receive this via notification.</small>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-bar">
+    <button class="btn-buy" onclick="buyNow()">Buy Now - COD</button>
+</div>
+
+<script>
+    async function init() {
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title');
+
+        // Fetch Data
+        const res = await fetch('products.json');
+        const data = await res.json();
+        const product = data.shoes.find(p => p.title === title);
+
+        if(!product) return document.body.innerHTML = "<h1>Product Not Found</h1>";
+
+        // Fill Data
+        document.getElementById('p-title').innerText = product.title;
+        document.getElementById('p-price').innerText = "PKR " + product.price;
+        document.getElementById('p-desc').innerText = product.body;
+        document.getElementById('form-p-name').value = product.title;
+
+        // Fill Images
+        const imgCont = document.getElementById('img-container');
+        // Handle if product has gallery OR just single image
+        const images = product.gallery ? product.gallery.map(g => g.image) : [product.image];
+        
+        imgCont.innerHTML = images.map(img => `<img src="${img}" class="gallery-img">`).join('');
+
+        // Fill Options
+        const sizeSel = document.getElementById('p-size');
+        if(product.sizes) sizeSel.innerHTML = product.sizes.map(s => `<option>${s}</option>`).join('');
+        
+        const colorSel = document.getElementById('p-color');
+        if(product.colors) colorSel.innerHTML = product.colors.map(c => `<option>${c}</option>`).join('');
+
+        // Fill Reviews
+        if(product.reviews && product.reviews.length > 0) {
+            document.getElementById('reviews-list').innerHTML = product.reviews.map(r => `
+                <div class="review-item">
+                    <strong>${r.user}</strong> <span class="stars">${'★'.repeat(r.rating)}</span><br>
+                    ${r.comment}
+                </div>
+            `).join('');
+        }
+    }
+
+    function scrollGallery(dir) {
+        const container = document.getElementById('img-container');
+        const width = container.offsetWidth;
+        container.scrollBy({ left: dir * width, behavior: 'smooth' });
+    }
+
+    function buyNow() {
+        const title = document.getElementById('p-title').innerText;
+        const priceStr = document.getElementById('p-price').innerText.replace('PKR ', '');
+        const size = document.getElementById('p-size').value;
+        const color = document.getElementById('p-color').value;
+        const qty = document.getElementById('p-qty').value;
+
+        // Pass everything to Checkout via URL
+        const url = `checkout.html?product=${encodeURIComponent(title)}&price=${priceStr}&size=${size}&color=${color}&qty=${qty}`;
+        window.location.href = url;
+    }
+
+    init();
+</script>
+</body>
+</html>

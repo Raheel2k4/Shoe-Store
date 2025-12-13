@@ -6,37 +6,23 @@
     <title>Checkout | Static Kicks</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- REUSING VARIABLES --- */
-        :root { --primary: #111; --accent: #25D366; --bg: #f8f9fa; --radius: 12px; }
+        :root { --primary: #111; --bg: #f8f9fa; --radius: 12px; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); padding: 2rem 1rem; color: var(--primary); }
 
         .checkout-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 500px; margin: 0 auto; background: white; padding: 2rem;
+            border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-
         h2 { margin-bottom: 1.5rem; text-align: center; }
         
-        .order-summary {
-            background: #f1f3f5;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
+        .order-summary { background: #f1f3f5; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
         .total { font-weight: 700; font-size: 1.1rem; border-top: 1px solid #ddd; padding-top: 0.5rem; margin-top: 0.5rem; }
 
         .form-group { margin-bottom: 1.2rem; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
-        input, select, textarea {
-            width: 100%; padding: 0.8rem; border: 2px solid #eee; border-radius: 8px; font-size: 1rem;
-        }
+        input, textarea { width: 100%; padding: 0.8rem; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; }
         input:focus { border-color: var(--primary); outline: none; }
 
         .radio-group { display: flex; gap: 1rem; margin-bottom: 1rem; }
@@ -45,13 +31,10 @@
         }
         .radio-option.selected { border-color: var(--primary); background: #f9f9f9; }
 
-        .pay-btn {
-            width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem;
-        }
-
+        .pay-btn { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem; }
+        
         .payment-instruction {
-            display: none; /* Hidden by default */
-            background: #e3fcef; color: #0c5460; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #bee5eb; font-size: 0.9rem;
+            display: none; background: #e3fcef; color: #0c5460; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #bee5eb; font-size: 0.9rem;
         }
     </style>
 </head>
@@ -61,56 +44,51 @@
         <h2>Complete Your Order</h2>
 
         <div class="order-summary">
-            <div class="summary-row"><span>Product:</span> <span id="summ-product">Loading...</span></div>
-            <div class="summary-row"><span>Price:</span> <span id="summ-price">0</span></div>
+            <div class="summary-row"><span id="summ-product">Loading...</span></div>
+            <div class="summary-row"><span>Subtotal:</span> <span id="summ-price">0</span></div>
             <div class="summary-row"><span>Delivery:</span> <span>PKR 200</span></div>
             <div class="summary-row total"><span>Total:</span> <span id="summ-total">0</span></div>
         </div>
 
         <form name="orders" method="POST" data-netlify="true" action="/success.html">
-            
-            <input type="hidden" name="product_name" id="input-product">
+            <input type="hidden" name="product_details" id="input-product">
             <input type="hidden" name="total_price" id="input-price">
 
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" name="name" required placeholder="Ali Khan">
+                <input type="text" name="name" required placeholder="Enter your full name">
             </div>
 
             <div class="form-group">
-                <label>Phone Number (WhatsApp)</label>
-                <input type="tel" name="phone" required placeholder="0300-1234567">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" required placeholder="0300-XXXXXXX">
             </div>
 
             <div class="form-group">
                 <label>City</label>
-                <input type="text" name="city" required placeholder="Lahore">
+                <input type="text" name="city" required placeholder="e.g. Lahore">
             </div>
 
             <div class="form-group">
                 <label>Full Address</label>
-                <textarea name="address" rows="3" required placeholder="House #, Street #, Area..."></textarea>
+                <textarea name="address" rows="3" required placeholder="House #, Street, Area..."></textarea>
             </div>
 
             <div class="form-group">
                 <label>Payment Method</label>
                 <div class="radio-group">
-                    <div class="radio-option selected" onclick="selectPayment('cod', this)">
-                        🚚 COD
-                    </div>
-                    <div class="radio-option" onclick="selectPayment('jazz', this)">
-                        📱 Jazz/Easy
-                    </div>
+                    <div class="radio-option selected" onclick="selectPayment('cod', this)">🚚 COD</div>
+                    <div class="radio-option" onclick="selectPayment('jazz', this)">📱 Online Pay</div>
                 </div>
                 <input type="hidden" name="payment_method" id="payment-method" value="COD">
             </div>
 
             <div id="jazz-instructions" class="payment-instruction">
-                <strong>How to Pay:</strong><br>
-                1. Send Total Amount to JazzCash/Easypaisa.<br>
-                2. Account: <b>0300-XXXXXXX</b> (Your Name).<br>
-                3. Enter the Transaction ID (TID) below.
-                <input type="text" name="transaction_id" placeholder="Enter TID here" style="margin-top:0.5rem;">
+                <strong>Online Payment:</strong><br>
+                Send Total Amount to: <b id="pay-number" style="font-size:1.1em;">Loading...</b><br>
+                <small>JazzCash / Easypaisa</small><br><br>
+                Please enter the Transaction ID (TID) below:
+                <input type="text" name="transaction_id" placeholder="e.g. 827361..." style="margin-top:0.5rem;">
             </div>
 
             <button type="submit" class="pay-btn">Confirm Order</button>
@@ -118,41 +96,57 @@
     </div>
 
     <script>
-        // 1. Get Product Data from URL (sent from index.html)
+        // 1. Get Params from URL
         const params = new URLSearchParams(window.location.search);
-        const product = params.get('product') || 'Unknown Shoe';
+        const title = params.get('product') || 'Unknown Item';
         const price = parseInt(params.get('price')) || 0;
-        const shipping = 200;
-        const total = price + shipping;
+        const size = params.get('size') || 'N/A';
+        const color = params.get('color') || 'N/A';
+        const qty = params.get('qty') || 1;
 
-        // 2. Update HTML
-        document.getElementById('summ-product').innerText = product;
-        document.getElementById('summ-price').innerText = 'PKR ' + price;
+        // 2. Calculate Total
+        const shipping = 200;
+        const subtotal = price * qty;
+        const total = subtotal + shipping;
+
+        // 3. Update UI
+        const detailsString = `${title} (x${qty}) | Size: ${size} | Color: ${color}`;
+        document.getElementById('summ-product').innerText = detailsString;
+        document.getElementById('summ-price').innerText = 'PKR ' + subtotal;
         document.getElementById('summ-total').innerText = 'PKR ' + total;
 
-        // 3. Fill Hidden Form Inputs
-        document.getElementById('input-product').value = product;
+        // 4. Fill Hidden Inputs
+        document.getElementById('input-product').value = detailsString;
         document.getElementById('input-price').value = total;
 
-        // 4. Handle Payment Selection UI
+        // 5. Load Payment Number from Settings
+        fetch('settings.json')
+            .then(res => res.json())
+            .then(data => {
+                if(data.payment_number) {
+                    document.getElementById('pay-number').innerText = data.payment_number;
+                } else {
+                    document.getElementById('pay-number').innerText = "Contact Admin";
+                }
+            })
+            .catch(() => document.getElementById('pay-number').innerText = "Check Footer");
+
+        // 6. Payment Toggle Logic
         function selectPayment(type, element) {
-            // Reset styles
             document.querySelectorAll('.radio-option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
             
-            // Toggle Instructions
-            const instructions = document.getElementById('jazz-instructions');
-            const hiddenInput = document.getElementById('payment-method');
+            const instr = document.getElementById('jazz-instructions');
+            const hidden = document.getElementById('payment-method');
             
             if (type === 'jazz') {
-                instructions.style.display = 'block';
-                hiddenInput.value = 'JazzCash/Easypaisa';
+                instr.style.display = 'block';
+                hidden.value = 'Online Payment';
             } else {
-                instructions.style.display = 'none';
-                hiddenInput.value = 'COD';
+                instr.style.display = 'none';
+                hidden.value = 'COD';
             }
         }
     </script>
-
 </body>
 </html>

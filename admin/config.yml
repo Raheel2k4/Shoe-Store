@@ -6,7 +6,20 @@ media_folder: "uploads"
 public_folder: "/uploads"
 
 collections:
-  # 1. THE PRODUCT DATABASE
+  # 1. GLOBAL SETTINGS
+  - name: "settings"
+    label: "Store Settings"
+    files:
+      - name: "general"
+        label: "General Settings"
+        file: "settings.json"
+        fields:
+          - {label: "Store Name", name: "store_name", widget: "string"}
+          - {label: "Online Payment Number (Jazz/Easy)", name: "payment_number", widget: "string", hint: "This appears on checkout"}
+          - {label: "WhatsApp Number", name: "whatsapp_number", widget: "string"}
+          - {label: "Store Address", name: "address", widget: "text"}
+
+  # 2. SHOE INVENTORY
   - name: "data"
     label: "Data"
     files:
@@ -20,21 +33,22 @@ collections:
             fields:
               - {label: "Shoe Name", name: "title", widget: "string"}
               - {label: "Price (PKR)", name: "price", widget: "number", value_type: "int"}
-              - {label: "Category", name: "category", widget: "select", options: ["Sport", "Sneaker", "Casual", "Formal", "Boot", "Premium"]}
-              - {label: "Photo", name: "image", widget: "image"}
-              - {label: "Description", name: "body", widget: "text", required: false}
-
-  # 2. THE STORE SETTINGS (New!)
-  - name: "settings"
-    label: "Store Settings"
-    files:
-      - name: "general"
-        label: "Contact & Info"
-        file: "settings.json"
-        fields:
-          - {label: "Store Name", name: "store_name", widget: "string", default: "Static Kicks"}
-          - {label: "WhatsApp Number (Format: 92300...)", name: "whatsapp_number", widget: "string"}
-          - {label: "Display Phone Number", name: "display_phone", widget: "string", default: "0300-1234567"}
-          - {label: "Store Address", name: "address", widget: "text"}
-          - {label: "Instagram Link", name: "instagram", widget: "string", required: false}
-          - {label: "Facebook Link", name: "facebook", widget: "string", required: false}
+              - {label: "Category", name: "category", widget: "select", options: ["Men", "Women", "Children", "Unisex"]}
+              - {label: "Description", name: "body", widget: "markdown"}
+              - {label: "Available Sizes", name: "sizes", widget: "select", multiple: true, options: ["38", "39", "40", "41", "42", "43", "44", "45"]}
+              - {label: "Available Colors", name: "colors", widget: "list", field: {label: "Color Name", widget: "string"}}
+              # MULTIPLE IMAGES
+              - label: "Product Images"
+                name: "gallery"
+                widget: "list"
+                fields:
+                  - {label: "Image", name: "image", widget: "image"}
+              # REVIEWS (Admin adds them manually after receiving email)
+              - label: "Customer Reviews"
+                name: "reviews"
+                widget: "list"
+                required: false
+                fields:
+                  - {label: "Customer Name", name: "user", widget: "string"}
+                  - {label: "Rating (1-5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5}
+                  - {label: "Comment", name: "comment", widget: "text"}

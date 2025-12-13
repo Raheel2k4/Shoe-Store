@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Static Kicks | Loading...</title>
+    <title>Static Kicks | Pakistan</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
@@ -13,7 +13,7 @@
         /* --- VARIABLES --- */
         :root {
             --primary: #121212;
-            --accent: #25D366; /* WhatsApp Green */
+            --accent: #25D366; 
             --bg: #FAFAFA;
             --card-bg: #FFFFFF;
             --text-gray: #757575;
@@ -23,77 +23,69 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--bg); 
-            color: var(--primary); 
-            font-family: 'Poppins', sans-serif;
-            padding-top: 70px; 
-            -webkit-tap-highlight-color: transparent;
+            background-color: var(--bg); color: var(--primary); 
+            font-family: 'Poppins', sans-serif; padding-top: 70px; 
             display: flex; flex-direction: column; min-height: 100vh;
         }
 
         /* --- HEADER --- */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; }
         .logo span { color: var(--text-gray); font-weight: 400; }
         
         .cart-icon { position: relative; font-size: 1.2rem; cursor: pointer; }
         .cart-badge {
-            position: absolute; top: -5px; right: -8px;
-            background: var(--primary); color: white;
-            font-size: 0.6rem; width: 16px; height: 16px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-weight: bold;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; top: -5px; right: -8px; background: var(--primary); color: white;
+            font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
         }
-        .cart-badge.bump { transform: scale(1.5); }
 
         /* --- HERO SECTION --- */
         .hero {
-            position: relative;
-            height: 60vh; min-height: 400px;
-            /* Premium Streetwear Background */
+            position: relative; height: 50vh; min-height: 350px;
             background: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
             display: flex; align-items: center; justify-content: center;
-            text-align: center; margin-bottom: 2rem;
+            text-align: center; margin-bottom: 0;
         }
-        .hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3));
-        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3)); }
         .hero-content { position: relative; z-index: 1; color: white; padding: 1rem; }
-        .hero h1 { 
-            font-family: 'Montserrat', sans-serif; font-size: 3rem; font-weight: 800; 
-            text-transform: uppercase; line-height: 1; margin-bottom: 1rem;
+        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem; }
+        
+        /* --- SEARCH & FILTER PANEL --- */
+        .filter-container {
+            max-width: 1200px; margin: -30px auto 2rem; padding: 0 5%; position: relative; z-index: 10;
         }
-        .hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
-        .cta-btn {
-            background: white; color: black; padding: 1rem 2.5rem;
-            border-radius: 30px; font-weight: 700; text-decoration: none;
-            text-transform: uppercase; font-size: 0.9rem; transition: transform 0.2s;
+        .search-bar {
+            background: white; padding: 1rem; border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; gap: 1rem; align-items: center;
         }
-        .cta-btn:hover { transform: scale(1.05); }
-
-        /* --- FILTERS --- */
-        .filter-bar {
-            display: flex; gap: 0.8rem; padding: 0 5%; margin-bottom: 2rem;
-            overflow-x: auto; scrollbar-width: none;
+        .search-input {
+            flex: 1; padding: 12px; border: 1px solid #eee; border-radius: 8px; font-size: 1rem; outline: none;
         }
-        .filter-bar::-webkit-scrollbar { display: none; }
-
-        .filter-pill {
-            white-space: nowrap; padding: 0.6rem 1.5rem;
-            border: 1px solid #E0E0E0; border-radius: 25px;
-            font-size: 0.9rem; font-weight: 600; color: var(--text-gray);
-            cursor: pointer; transition: all 0.3s; background: white;
+        .filter-toggle {
+            padding: 12px 20px; background: #111; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
         }
-        .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        /* Hidden Filter Panel */
+        #filter-panel {
+            display: none; background: #fff; padding: 1.5rem; margin-top: 10px; border-radius: 12px; border: 1px solid #eee;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .filter-group { margin-bottom: 1.5rem; }
+        .filter-label { font-weight: 700; margin-bottom: 0.8rem; display: block; font-size: 0.9rem; }
+        .price-inputs { display: flex; gap: 10px; align-items: center; }
+        .price-inputs input { width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        
+        .cat-btn {
+            padding: 6px 15px; border: 1px solid #ddd; background: white; border-radius: 20px; 
+            cursor: pointer; margin-right: 8px; margin-bottom: 8px; font-size: 0.9rem; transition: all 0.2s;
+        }
+        .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         /* --- GRID --- */
         .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; flex: 1; }
@@ -104,68 +96,31 @@
 
         /* --- CARD --- */
         .card {
-            background: var(--card-bg); border-radius: 12px;
-            transition: transform 0.3s ease; cursor: pointer;
-            position: relative;
+            background: var(--card-bg); border-radius: 12px; transition: transform 0.3s ease; cursor: pointer;
+            border: 1px solid transparent;
         }
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
-
         .card-img-wrapper {
-            height: 260px; width: 100%; background: #f4f4f4;
-            border-radius: 12px; overflow: hidden; position: relative;
+            height: 260px; width: 100%; background: #f4f4f4; border-radius: 12px; overflow: hidden; position: relative;
         }
         .card-img { width: 100%; height: 100%; object-fit: cover; }
-        
         .badge {
-            position: absolute; top: 10px; left: 10px;
-            background: white; color: black; padding: 4px 10px;
-            font-size: 0.7rem; font-weight: 700; border-radius: 4px; text-transform: uppercase;
+            position: absolute; top: 10px; left: 10px; background: white; color: black; 
+            padding: 4px 10px; font-size: 0.7rem; font-weight: 700; border-radius: 4px; text-transform: uppercase;
         }
-
         .card-details { padding: 1rem 0.5rem; }
-        .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .card-price { font-size: 1.1rem; font-weight: 700; }
-        
-        .add-btn {
-            width: 35px; height: 35px; border-radius: 50%;
-            border: 1px solid #E0E0E0; background: white;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s; z-index: 2;
-        }
-        .add-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-        .add-btn:active { transform: scale(0.9); }
 
-        /* --- FOOTER (DYNAMIC) --- */
-        footer {
-            background: var(--primary); color: white; padding: 3rem 5%;
-            text-align: center; margin-top: auto;
-        }
+        /* --- FOOTER --- */
+        footer { background: var(--primary); color: white; padding: 3rem 5%; text-align: center; margin-top: auto; }
         .footer-logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem; }
-        .footer-links { margin-bottom: 2rem; font-size: 0.9rem; }
-        .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; transition: color 0.2s; }
-        .footer-links a:hover { color: white; }
-        .copyright { font-size: 0.8rem; opacity: 0.5; }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .card { animation: fadeIn 0.5s ease forwards; opacity: 0; }
-
-        /* TOAST NOTIFICATION */
-        #toast {
-            visibility: hidden; min-width: 250px; background-color: #333;
-            color: #fff; text-align: center; border-radius: 50px; padding: 16px;
-            position: fixed; z-index: 1100; left: 50%; bottom: 30px;
-            transform: translateX(-50%); font-size: 0.9rem;
-        }
-        #toast.show { visibility: visible; animation: fadeIn 0.5s, fadeOut 0.5s 2.5s; }
-        @keyframes fadeOut { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; }
 
         @media (max-width: 600px) {
-            .hero h1 { font-size: 2rem; }
             .product-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
             .card-img-wrapper { height: 180px; }
-            .card-title { font-size: 0.9rem; }
+            .filter-container { margin-top: 0; padding-top: 1rem; }
         }
     </style>
 </head>
@@ -173,201 +128,198 @@
 
     <header>
         <div class="logo">STATIC<span>KICKS.</span></div>
-        <div class="cart-icon" onclick="alert('Proceed to checkout by clicking any item.')">
-            🛒 <span class="cart-badge" id="cart-count">0</span>
-        </div>
+        <div class="cart-icon">🛒 <span class="cart-badge" id="cart-count">0</span></div>
     </header>
 
     <div class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Walk With<br>Power</h1>
-            <p>Premium Footwear. Exclusive Drops.</p>
-            <a href="#shop" class="cta-btn">Start Shopping</a>
+            <h1>Find Your Fit</h1>
         </div>
     </div>
 
-    <div class="filter-bar">
-        <div class="filter-pill active" onclick="filterProducts('All', this)">All</div>
-        <div class="filter-pill" onclick="filterProducts('Sport', this)">Sport</div>
-        <div class="filter-pill" onclick="filterProducts('Sneaker', this)">Sneakers</div>
-        <div class="filter-pill" onclick="filterProducts('Casual', this)">Casual</div>
-        <div class="filter-pill" onclick="filterProducts('Formal', this)">Formal</div>
+    <div class="filter-container">
+        <div class="search-bar">
+            <input type="text" id="search-input" class="search-input" placeholder="Search shoes (e.g. Nike, Casual)...">
+            <button class="filter-toggle" onclick="toggleFilterPanel()">Filters ▾</button>
+        </div>
+
+        <div id="filter-panel">
+            <div class="filter-group">
+                <span class="filter-label">Category</span>
+                <div id="category-container">
+                    </div>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Price Range (PKR)</span>
+                <div class="price-inputs">
+                    <input type="number" id="min-price" placeholder="Min">
+                    <span>-</span>
+                    <input type="number" id="max-price" placeholder="Max">
+                </div>
+            </div>
+            
+            <button onclick="applyFilters()" style="width:100%; padding:10px; background:var(--accent); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Apply Filters</button>
+        </div>
     </div>
 
-    <div class="container" id="shop">
+    <div class="container">
         <div class="product-grid" id="product-list">
-            <p style="text-align: center; grid-column: 1/-1;">Loading Collection...</p>
+            <p style="text-align: center; grid-column: 1/-1;">Loading Inventory...</p>
         </div>
     </div>
 
     <footer>
-        <div class="footer-logo" id="ft-name">STATIC KICKS.</div>
-        
+        <div class="footer-logo" id="ft-name">STATIC.</div>
         <div style="margin-bottom: 1.5rem;">
-            <p id="ft-address" style="margin-bottom:0.5rem; color:#aaa; font-size:0.9rem;">Loading Address...</p>
+            <p id="ft-address" style="color:#aaa; font-size:0.9rem;">Loading Address...</p>
             <p id="ft-phone" style="font-weight:bold; color:white;">...</p>
         </div>
-
         <div class="footer-links">
-            <a id="ft-insta" href="#" target="_blank">Instagram</a> • 
-            <a id="ft-fb" href="#" target="_blank">Facebook</a>
+            <a id="ft-insta" href="#" target="_blank">Instagram</a> • <a id="ft-fb" href="#" target="_blank">Facebook</a>
         </div>
-        
-        <div class="copyright">
-            &copy; 2025 <span id="ft-copyright-name">Static Kicks</span> Pakistan.<br>
-            Designed for Speed.
-        </div>
+        <div style="margin-top:2rem; font-size:0.7rem; opacity:0.5;">&copy; 2025 Static Kicks Pakistan</div>
     </footer>
 
-    <div id="toast">Added to Cart!</div>
-
     <script>
-        // --- BACKUP DATA (For local testing if files fail to load) ---
-        const localBackup = [
-            { "title": "Nike Air Zoom Pegasus", "price": 14500, "category": "Sport", "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" },
-            { "title": "Adidas Ultraboost", "price": 18200, "category": "Sport", "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80" },
-            { "title": "Jordan 1 Retro", "price": 9500, "category": "Sneaker", "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80" },
-            { "title": "Chelsea Formal", "price": 6200, "category": "Formal", "image": "https://images.unsplash.com/photo-1621021889816-724d45d90987?w=600&q=80" }
-        ];
-
-        // Global State
         let allProducts = [];
         let globalSettings = {};
-        let cartCount = 0;
+        let activeCategory = 'Men'; // Default logic
 
-        // 1. INITIALIZE APP
         async function initApp() {
-            await loadSettings(); 
-            await loadProducts(); 
+            await loadSettings();
+            await loadProducts();
         }
 
-        // 2. LOAD SETTINGS (From settings.json)
+        // 1. LOAD SETTINGS
         async function loadSettings() {
             try {
-                const response = await fetch('settings.json');
-                if (!response.ok) throw new Error("No settings file");
-                globalSettings = await response.json();
+                const res = await fetch('settings.json');
+                if(!res.ok) throw new Error();
+                globalSettings = await res.json();
                 
-                // Update DOM
-                if(globalSettings.store_name) {
-                    document.title = globalSettings.store_name + " | Pakistan";
-                    document.getElementById('ft-name').innerText = globalSettings.store_name;
-                    document.getElementById('ft-copyright-name').innerText = globalSettings.store_name;
-                }
+                if(globalSettings.store_name) document.getElementById('ft-name').innerText = globalSettings.store_name;
                 if(globalSettings.address) document.getElementById('ft-address').innerText = globalSettings.address;
                 if(globalSettings.display_phone) document.getElementById('ft-phone').innerText = "📞 " + globalSettings.display_phone;
-                
                 if(globalSettings.instagram) document.getElementById('ft-insta').href = globalSettings.instagram;
-                else document.getElementById('ft-insta').style.display = 'none';
-
                 if(globalSettings.facebook) document.getElementById('ft-fb').href = globalSettings.facebook;
-                else document.getElementById('ft-fb').style.display = 'none';
-
-            } catch (error) {
-                console.warn("Could not load settings.json (Using Defaults)");
-            }
+            } catch (e) { console.warn("Settings not loaded"); }
         }
 
-        // 3. LOAD PRODUCTS (From products.json)
+        // 2. LOAD PRODUCTS & GENERATE FILTERS
         async function loadProducts() {
             try {
-                const response = await fetch('products.json');
-                if (!response.ok) throw new Error("Fetch failed");
-                const data = await response.json();
+                const res = await fetch('products.json');
+                const data = await res.json();
                 allProducts = data.shoes;
-            } catch (error) {
-                console.warn("Using Backup Data");
-                allProducts = localBackup;
+                
+                generateCategories();
+                applyFilters(); // Apply initial filter
+            } catch (e) {
+                document.getElementById('product-list').innerHTML = '<p style="text-align:center; width:100%;">Failed to load products.</p>';
             }
-            renderCards(allProducts);
         }
 
-        // 4. RENDER CARDS
-        function renderCards(shoesArray) {
-            const productList = document.getElementById('product-list');
-            productList.innerHTML = ''; 
+        // 3. GENERATE CATEGORIES
+        function generateCategories() {
+            // Get unique categories + Default 'Men'
+            const cats = ['Men', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
+            const uniqueCats = [...new Set(cats)]; // Remove duplicates
+            
+            const container = document.getElementById('category-container');
+            container.innerHTML = `<button class="cat-btn" onclick="setCategory('All', this)">All</button>`; // Add 'All' option
 
-            if(shoesArray.length === 0) {
-                productList.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found.</p>';
+            uniqueCats.forEach(cat => {
+                const isActive = cat === 'Men' ? 'active' : '';
+                container.innerHTML += `<button class="cat-btn ${isActive}" onclick="setCategory('${cat}', this)">${cat}</button>`;
+            });
+            
+            // Set default active logic
+            activeCategory = 'Men';
+        }
+
+        // 4. FILTER LOGIC
+        function toggleFilterPanel() {
+            const panel = document.getElementById('filter-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function setCategory(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const term = document.getElementById('search-input').value.toLowerCase();
+            const min = parseInt(document.getElementById('min-price').value) || 0;
+            const max = parseInt(document.getElementById('max-price').value) || 999999;
+
+            const filtered = allProducts.filter(p => {
+                const matchSearch = p.title.toLowerCase().includes(term);
+                const matchPrice = p.price >= min && p.price <= max;
+                
+                // If Category is 'All', show everything. Else, match category. 
+                // Fallback: If product has NO category, show it in 'Men' or 'All'
+                const pCat = p.category || 'Men';
+                const matchCat = activeCategory === 'All' ? true : pCat === activeCategory;
+
+                return matchSearch && matchPrice && matchCat;
+            });
+
+            renderCards(filtered);
+        }
+
+        // Listen for Search Enter Key
+        document.getElementById('search-input').addEventListener('keyup', applyFilters);
+
+        // 5. RENDER CARDS
+        function renderCards(list) {
+            const grid = document.getElementById('product-list');
+            grid.innerHTML = '';
+            
+            if(list.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No products found.</p>';
                 return;
             }
 
-            shoesArray.forEach((shoe, index) => {
-                const delay = index * 50; 
-                const card = `
-                    <article class="card" style="animation-delay: ${delay}ms" onclick="goToCheckout('${shoe.title}', ${shoe.price})">
+            list.forEach((shoe, i) => {
+                // Use the FIRST image if gallery exists
+                const img = shoe.gallery ? shoe.gallery[0].image : shoe.image;
+                
+                grid.innerHTML += `
+                    <article class="card" onclick="openProduct('${shoe.title}')" style="animation: fadeIn 0.5s ease forwards; animation-delay: ${i*50}ms; opacity:0;">
                         <div class="card-img-wrapper">
-                            <span class="badge">New</span>
-                            <img src="${shoe.image}" class="card-img" alt="${shoe.title}" loading="lazy">
+                            <img src="${img}" class="card-img" loading="lazy" alt="${shoe.title}">
+                            ${shoe.price < 5000 ? '<span class="badge">Sale</span>' : ''}
                         </div>
                         <div class="card-details">
-                            <div style="font-size:0.8rem; color:#888; text-transform:uppercase;">${shoe.category || 'Sneaker'}</div>
+                            <div style="font-size:0.8rem; color:#888;">${shoe.category || 'Sneaker'}</div>
                             <h3 class="card-title">${shoe.title}</h3>
-                            <div class="card-footer">
-                                <div class="card-price">PKR ${shoe.price.toLocaleString()}</div>
-                                <div class="add-btn" onclick="addToCart(event)">+</div>
-                            </div>
+                            <div class="card-price">PKR ${shoe.price.toLocaleString()}</div>
                         </div>
                     </article>
                 `;
-                productList.innerHTML += card;
             });
         }
 
-        // 5. FILTER LOGIC
-        function filterProducts(category, element) {
-            document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-
-            if (category === 'All') {
-                renderCards(allProducts);
-            } else {
-                const filtered = allProducts.filter(shoe => 
-                    shoe.category && shoe.category.toLowerCase() === category.toLowerCase()
-                );
-                renderCards(filtered);
-            }
+        // 6. REDIRECT TO PRODUCT PAGE
+        function openProduct(title) {
+            window.location.href = `product.html?title=${encodeURIComponent(title)}`;
         }
 
-        // 6. ADD TO CART ANIMATION
-        function addToCart(event) {
-            event.stopPropagation(); // Don't trigger card click
-            
-            cartCount++;
-            const badge = document.getElementById('cart-count');
-            badge.innerText = cartCount;
-            
-            // Bump Animation
-            badge.classList.remove('bump');
-            void badge.offsetWidth; 
-            badge.classList.add('bump');
-            
-            // Toast Notification
-            const toast = document.getElementById("toast");
-            toast.className = "show";
-            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-        }
-
-        // 7. CHECKOUT REDIRECT
-        function goToCheckout(productName, price) {
-            const url = `checkout.html?product=${encodeURIComponent(productName)}&price=${price}`;
-            window.location.href = url;
-        }
-
-        // 8. NETLIFY IDENTITY LOGIC (For Admin Login)
+        // 7. ADMIN REDIRECT
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
+                if (!user) window.netlifyIdentity.on("login", () => document.location.href = "/admin/");
             });
         }
 
-        // Start App
         window.onload = initApp;
     </script>
+    
+    <style>@keyframes fadeIn { to { opacity:1; } }</style>
 </body>
 </html>
