@@ -1,19 +1,43 @@
 {
   "shoes": [
     {
-      "title": "Nike Air Pegasus",
-      "price": 14500,
-      "category": "Men",
       "body": "The workhorse with wings. Perfect for running and daily use.",
-      "sizes": ["40", "41", "42"],
-      "colors": ["Black", "White"],
-      "gallery": [
-        {"image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"},
-        {"image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800"}
+      "price": 14500,
+      "colors": [
+        "Black",
+        "White"
       ],
+      "sizes": [
+        "40",
+        "41",
+        "42"
+      ],
+      "gallery": [
+        {
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"
+        },
+        {
+          "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800"
+        }
+      ],
+      "title": "Nike Air Pegasus",
       "reviews": [
-        {"user": "Ahmed", "rating": 5, "comment": "Best shoes I ever bought!"}
-      ]
+        {
+          "user": "Ahmed",
+          "rating": 5,
+          "comment": "Best shoes I ever bought!"
+        }
+      ],
+      "rating": 5,
+      "category": "Men"
+    },
+    {
+      "category": "Men",
+      "rating": 5,
+      "title": "Formal Wear",
+      "price": 1500,
+      "image": "uploads/images.jpeg",
+      "description": "ABCD"
     }
   ]
 }
