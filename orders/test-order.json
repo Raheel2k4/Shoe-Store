@@ -1,0 +1,14 @@
+{
+  "title": "ORD-1001",
+  "customer_name": "Ali Khan",
+  "phone": "0300-1234567",
+  "status": "Pending",
+  "total": 12000,
+  "date": "2025-11-06T12:00:00.000Z",
+  "items": [
+    {
+      "item_name": "Air Jordan 1",
+      "item_price": 12000
+    }
+  ]
+}
