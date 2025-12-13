@@ -20,7 +20,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Fix Horizontal Scroll */
         html, body { overflow-x: hidden; width: 100%; }
 
         body { 
@@ -28,7 +27,7 @@
             font-family: 'Poppins', sans-serif; padding-top: 80px; 
         }
 
-        /* --- HEADER (MATCHING HOME) --- */
+        /* --- HEADER --- */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: 70px;
             background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px);
@@ -44,9 +43,7 @@
         .logo span { color: var(--text-gray); font-weight: 400; }
 
         .header-search {
-            flex: 1;
-            max-width: 400px;
-            position: relative;
+            flex: 1; max-width: 400px; position: relative;
         }
         
         .header-search input {
@@ -58,7 +55,6 @@
         .header-search input:focus { background: #fff; border-color: #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
         .header-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-        
         .cart-icon { position: relative; font-size: 1.3rem; cursor: pointer; }
         .cart-badge {
             position: absolute; top: -5px; right: -8px; background: var(--primary); color: white;
@@ -73,7 +69,7 @@
             align-items: start;
         }
 
-        /* IMAGE GALLERY */
+        /* GALLERY */
         .gallery { display: flex; flex-direction: column; gap: 10px; }
         .main-img { 
             width: 100%; height: 500px; object-fit: cover; border-radius: 12px; 
@@ -86,7 +82,7 @@
         }
         .thumb.active { opacity: 1; border-color: var(--primary); }
 
-        /* DETAILS SIDE */
+        /* DETAILS */
         .details h1 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
         .price { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin-bottom: 1.5rem; }
         
@@ -113,34 +109,15 @@
         .tab-content { display: none; animation: fadeIn 0.4s; }
         .tab-content.active { display: block; }
 
-        /* --- REVIEW --- */
-        .verification-box {
-            background: #fff; border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;
-        }
-        .review-item { 
-            background: white; padding: 1rem; border-radius: 8px; margin-bottom: 10px; 
-            border: 1px solid #eee; 
-        }
+        /* --- REVIEW & QA STYLES --- */
+        .verification-box { background: #fff; border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+        .review-item { background: white; padding: 1rem; border-radius: 8px; margin-bottom: 10px; border: 1px solid #eee; }
         .stars { color: #FFD700; margin-bottom: 5px; }
 
-        /* --- QUESTION (Modern Style) --- */
-        .question-box {
-            background: white; padding: 1.5rem; border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee;
-        }
-        .q-input-group { margin-bottom: 1rem; }
-        
-        .q-input {
-            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
-            font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s;
-            background: #f9f9f9; display: block; margin-bottom: 10px;
-        }
+        .question-box { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        .q-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s; background: #f9f9f9; display: block; margin-bottom: 10px; }
         .q-input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-        
-        .ask-btn {
-            background: var(--primary); color: white; border: none; padding: 12px 25px;
-            border-radius: 6px; font-weight: 600; cursor: pointer;
-        }
+        .ask-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 6px; font-weight: 600; cursor: pointer; }
 
         .qa-list { margin-top: 2rem; }
         .qa-item { margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
@@ -154,7 +131,6 @@
             .logo { font-size: 1.1rem; }
             .header-search { max-width: 140px; }
             .header-search input { padding: 6px 10px; font-size: 0.8rem; }
-            
             .product-container { grid-template-columns: 1fr; gap: 2rem; }
             .main-img { height: 350px; }
             .buy-btn { position: fixed; bottom: 0; left: 0; margin: 0; border-radius: 0; z-index: 100; }
@@ -167,11 +143,9 @@
 
     <header>
         <div class="logo" onclick="window.location.href='index.html'">STATIC<span>KICKS.</span></div>
-        
         <div class="header-search">
             <input type="text" id="search-input" placeholder="Search shoes..." autocomplete="off">
         </div>
-
         <div class="header-right">
             <div class="cart-icon">🛒 <span class="cart-badge" id="cart-count">0</span></div>
         </div>
@@ -205,26 +179,21 @@
                         <input type="text" id="order-id-input" placeholder="e.g. SK-1024" style="padding:10px; border:1px solid #ddd; border-radius:4px; flex:1;">
                         <button onclick="verifyOrder()" style="padding:10px 20px; background:#333; color:white; border:none; border-radius:4px; cursor:pointer;">Verify</button>
                     </div>
-                    
                     <div id="review-form" style="display:none; margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
                         <textarea id="review-text" placeholder="Write your review here..." style="width:100%; padding:10px; border:1px solid #ddd; margin-bottom:10px; border-radius:4px;"></textarea>
                         <button onclick="submitReview()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Submit Review</button>
                     </div>
                 </div>
-
                 <div class="review-list" id="review-list"></div>
             </div>
 
             <div id="questions" class="tab-content">
                 <div class="question-box">
                     <h3 style="margin-bottom:1rem;">Ask a Question</h3>
-                    <div class="q-input-group">
-                        <input type="text" id="q-name" class="q-input" placeholder="Your Name">
-                        <textarea id="q-text" class="q-input" placeholder="Type your question here..." rows="3"></textarea>
-                    </div>
+                    <input type="text" id="q-name" class="q-input" placeholder="Your Name">
+                    <textarea id="q-text" class="q-input" placeholder="Type your question here..." rows="3"></textarea>
                     <button class="ask-btn" onclick="submitQuestion()">Post Question</button>
                 </div>
-
                 <div class="qa-list" id="qa-list"></div>
             </div>
         </div>
@@ -235,8 +204,7 @@
         const productTitle = urlParams.get('title');
         let productData = null;
 
-        // --- HEADER SEARCH LOGIC ---
-        // Since we are on a sub-page, searching should send us back to home with the query
+        // --- HEADER SEARCH (Redirects to Home) ---
         document.getElementById('search-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 window.location.href = `index.html?search=${encodeURIComponent(this.value)}`;
@@ -287,16 +255,26 @@
             btn.classList.add('active');
         }
 
+        // --- MODIFIED BUY NOW FUNCTION ---
         function buyNow() {
-            const msg = `Hi, I want to buy: ${productTitle} - PKR ${productData.price}`;
-            window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
+            if(!productData) return;
+
+            // Create URL parameters to pass product info to checkout
+            const params = new URLSearchParams({
+                product: productData.title,
+                price: productData.price,
+                img: productData.gallery ? productData.gallery[0].image : productData.image
+            });
+
+            // Redirect to checkout page
+            window.location.href = `checkout.html?${params.toString()}`;
         }
 
-        // --- REVIEWS ---
+        // --- REVIEWS & QUESTIONS ---
         function verifyOrder() {
             const input = document.getElementById('order-id-input').value;
             if(input.length > 3) {
-                alert("Order Verified! You can now write a review.");
+                alert("Order Verified!");
                 document.getElementById('review-form').style.display = 'block';
                 document.getElementById('order-id-input').disabled = true;
             } else {
@@ -322,7 +300,6 @@
             `;
         }
 
-        // --- QUESTIONS ---
         function submitQuestion() {
             const name = document.getElementById('q-name').value || "Guest";
             const text = document.getElementById('q-text').value;
